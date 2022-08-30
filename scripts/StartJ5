@@ -9,10 +9,12 @@
 #                   jive5ab will be run from this directory; it
 #                   means that files extracted using "disk2file="
 #                   will be stored in this directory.
-station=
-logdir="${HOME}/jive5ab.logs"
-datadir="${HOME}/data"
-j5a="/opt/jivemark5a -m 3 -b ${*}"
+station=$1
+comm_port=$2
+logdir="${JIVE5AB_LOGS}"
+datadir="${JIVE5AB_DATA}"
+j5a="${JIVE5AB_BINARY} -m 3 -p ${comm_port}"
+
 
 #----------- You shouldn't have to edit below here -----------------
 
@@ -31,12 +33,16 @@ j5a="/opt/jivemark5a -m 3 -b ${*}"
 #         didn't do anything
 #
 
-
 # If people send log files, it's nice to have the name of the station 
 # in the file name
 if [ -z "${station}" ]; then
     echo "ERROR: Please set your station's name in the script"
     exit 1
+fi
+
+if [ -z "${comm_port}" ]; then
+    echo "WARNING: Setting Comm Port to default of 2621."
+    comm_port=2621
 fi
 
 # verify that ${logdir} exists
